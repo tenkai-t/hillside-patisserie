@@ -1,6 +1,6 @@
 import * as T from './vendor/three.module.min.js';
-import {buildPlayer, disposePlayer} from './model.js?v=9';
-import {characterAppearance, characters, loadOriginalAppearance, outfits, saveAppearance, wardrobeFields} from './wardrobe.js?v=9';
+import {buildPlayer, disposePlayer} from './model.js?v=8';
+import {characterAppearance, characters, loadOriginalAppearance, outfits, saveAppearance, wardrobeFields} from './wardrobe.js?v=8';
 
 function createPreview(canvas) {
   const renderer = new T.WebGLRenderer({canvas, antialias: true, alpha: true});

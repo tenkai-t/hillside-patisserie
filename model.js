@@ -1,5 +1,5 @@
 import * as T from './vendor/three.module.min.js';
-import {normalizeAppearance, outfits, hairColors, eyeColors} from './wardrobe.js?v=9';
+import {normalizeAppearance, outfits, hairColors, eyeColors} from './wardrobe.js?v=8';
 
 export const townsperson = Object.freeze({
   faceY:1.58, faceWidth:.157, faceHeight:.179, faceDepth:.144,
@@ -187,7 +187,7 @@ function face(root, appearance, {main, dark, accent, light}) {
   ell(h,hairShade,0,.05,-.054,.245,.269,.215,true);
   const features=group(h,0,.015,.022);
   features.scale.set(.206/townsperson.faceWidth,.229/townsperson.faceHeight,.187/townsperson.faceDepth);
-  buildTownFace(features,skin,appearance.eyeColor==='black'?null:eyes);
+  buildTownFace(features,skin,eyes);
   ell(h,hair,0,.15,-.048,.245,.168,.208,true).rotation.z=.08;
   for(const sign of [-1,1]){
     ell(h,skin,sign*.196,-.027,.025,.055,.074,.048,true);
@@ -220,7 +220,7 @@ function face(root, appearance, {main, dark, accent, light}) {
   if(appearance.outfit==='patisserie'){
     const hat=group(h,-.069,.241,-.009);
     hat.rotation.set(-.11,-.18,.34);
-    ell(hat,light,0,.024,-.023,.248,.087,.207,true);
+    ell(hat,dark,0,.024,-.023,.248,.087,.207,true);
     ell(hat,main,0,.056,-.029,.243,.083,.194,true);
     for(let i=0;i<19;i++){
       const a=.18+i*.153;
@@ -312,7 +312,6 @@ export function buildPlayer(parent, choices) {
   const yukata=appearance.outfit==='yukata';
   const festival=appearance.character==='festival';
   const dark=appearance.outfit==='garden'?'#655044':apronColor;
-  const shoeColor=appearance.outfit==='patisserie'?'#493c3a':dark;
   const root=group(parent);
   const figure=group(root,0,-shoeClearance,0);
   figure.scale.set(figureWidth,figureHeight,.88);
@@ -334,9 +333,9 @@ export function buildPlayer(parent, choices) {
     }
     ell(thigh,skin,0,-.27,0,.067,.280,.068,true);
     ell(shin,cream,0,-.19,0,.068,.22,.073,true);
-    const shoe=ell(shin,shoeColor,0,-.376,.061,.086,.058,.144,true);
+    const shoe=ell(shin,dark,0,-.376,.061,.086,.058,.144,true);
     shoe.rotation.x=-.07;
-    box(shin,shoeColor,0,-.406,-.042,.113,.075,.090);
+    box(shin,dark,0,-.406,-.042,.113,.075,.090);
     disk(shin,burgundy,0,-.314,.014,.072,.028,.088,true);
     ribbon(shin,0,-.340,.155,pink,.29).rotation.x=-.26;
     box(shin,gold,sign*.045,-.297,.052,.027,.027,.02);
