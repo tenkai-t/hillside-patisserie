@@ -1,5 +1,5 @@
 import * as T from './vendor/three.module.min.js';
-import {box, disk, ell, group, pastry} from './model.js?v=8';
+import {box, disk, ell, group, pastry} from './model.js?v=9';
 import {compact, flower} from './town.js?v=12';
 import {furnishHome, stairX} from './homes.js?v=12';
 import {entrances} from './places.js?v=12';

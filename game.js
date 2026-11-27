@@ -1,7 +1,7 @@
 import * as T from './vendor/three.module.min.js';
-import {buildPlayer, disposePlayer, mesh, poseSeated} from './model.js?v=8';
-import {createCharacterEditor} from './character-editor.js?v=8';
-import {loadAppearance} from './wardrobe.js?v=8';
+import {buildPlayer, disposePlayer, mesh, poseSeated} from './model.js?v=9';
+import {createCharacterEditor} from './character-editor.js?v=9';
+import {loadAppearance} from './wardrobe.js?v=9';
 import {town, ground, frozenGround, target, flower as addFlower} from './town.js?v=12';
 import {buildInterior} from './interiors.js?v=12';
 import {townBounds, offBridgeChannel, entrances, flowerPatch, overlook, benches, placeName, canStand, hitsCollider, supportHeight} from './places.js?v=12';

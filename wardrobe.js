@@ -1,7 +1,7 @@
 export const characters = {
   patty: {
     name: 'パティ（公式）',
-    outfit: 'patisserie', hairstyle: 'buns', hairColor: 'rose', eyeColor: 'blue',
+    outfit: 'patisserie', hairstyle: 'bob', hairColor: 'komorebi', eyeColor: 'black',
   },
   festival: {
     name: '夏祭りの子（公式）',
@@ -16,8 +16,8 @@ export const characters = {
 export const outfits = {
   patisserie: {
     name: 'パティの制服',
-    description: '原画のリボンとフリル付きエプロン',
-    main: '#593640', dark: '#482936', accent: '#cc7992', light: '#ffead3',
+    description: '白いベーカー帽とキャラメルエプロン',
+    main: '#f8f4ea', dark: '#a9743f', accent: '#d96a6a', light: '#f6efdd',
   },
   garden: {
     name: '花の広場',
@@ -48,12 +48,14 @@ export const hairColors = {
   chestnut: {name: '栗色', base: '#825846', shade: '#624033', shine: '#bc8a6e'},
   ash: {name: 'アッシュ', base: '#6c687f', shade: '#4f4a62', shine: '#9996b2'},
   honey: {name: 'はちみつ', base: '#bd895a', shade: '#89643f', shine: '#e6bc83'},
+  komorebi: {name: 'こげ茶', base: '#7a4a32', shade: '#57331f', shine: '#a9744f'},
 };
 
 export const eyeColors = {
   blue: {name: '空色', base: '#5a789c', shine: '#8ebad2'},
   brown: {name: '琥珀', base: '#975e3e', shine: '#d8a777'},
   green: {name: '若葉', base: '#577c68', shine: '#93b990'},
+  black: {name: 'まっくろ', base: '#2b2830', shine: '#55505c'},
 };
 
 export const wardrobeFields = {

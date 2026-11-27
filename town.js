@@ -1,7 +1,7 @@
 import * as T from './vendor/three.module.min.js';
 import {mergeGeometries} from './vendor/BufferGeometryUtils.js';
 import {riverCenter, riverHalfWidth, bridgeHalfWidth, flowerPatch, overlook, benches, entrances, townHouses, hillHouses} from './places.js?v=12';
-import {mesh, group, ell, box, disk, tube, pastry, townsperson, buildTownFace} from './model.js?v=8';
+import {mesh, group, ell, box, disk, tube, pastry, townsperson, buildTownFace} from './model.js?v=9';
 
 let seed=3869;
 const random=()=>((seed=Math.imul(seed,1664525)+1013904223>>>0)/4294967296);

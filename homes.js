@@ -1,4 +1,4 @@
-import {box, disk, ell, group} from './model.js?v=8';
+import {box, disk, ell, group} from './model.js?v=9';
 import {flower} from './town.js?v=12';
 
 const wood='#976b55', ivory='#fff0d0', iron='#6a575a';
