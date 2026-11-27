@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#63414d">
+<title>坂の上のパティスリー</title>
+<link rel="stylesheet" href="./style.css?v=10">
+</head>
+<body>
+<main id="game" aria-label="坂の上のパティスリー 3D体験版">
+  <canvas id="world" aria-label="操作できる3Dの町"></canvas>
+  <div class="shade"></div>
+  <header class="top">
+    <div class="wordmark"><svg viewBox="0 0 40 40" aria-hidden="true"><path d="M8 24h24l-3 9H11zM8 24c-5-3-2-8 2-8 0-4 4-6 7-5 0-4 4-6 6-7-1 5 5 5 5 9 4 0 6 3 5 6 2 2 1 5-1 5M16 27l1 4m4-4v4m4-4-1 4"/></svg><div><small>HILLSIDE PÂTISSERIE</small><h1>坂の上のパティスリー</h1></div></div>
+    <div class="tools"><button id="view" class="round" aria-label="カメラを反転" title="カメラを反転（V）"><svg viewBox="0 0 24 24"><path d="M20 10a8 8 0 0 0-14-4L3 9m0 0V4m0 5h5m-4 5a8 8 0 0 0 14 4l3-3m0 0v5m0-5h-5"/></svg></button><button id="help" class="round" aria-label="遊び方" title="遊び方">?</button></div>
+  </header>
+  <aside id="quest" class="quest" aria-live="polite"><small>おつかい</small><strong id="quest-title">焼きたてケーキのお届け</strong><span id="quest-detail">広場にいる花屋さんに届けよう</span></aside>
+  <div class="environment-controls">
+    <button id="clock-button" class="clock-button" type="button" title="ゲーム内時刻を変更">朝 09:00</button>
+    <button id="weather-button" class="clock-button" type="button" title="ゲーム内の天候を変更" aria-label="天候を変更（晴れ）">☀ 晴れ</button>
+  </div>
+  <div id="location" class="location">パティスリー前</div>
+  <button id="portrait" class="portrait" aria-label="キャラメイクを開く" title="キャラメイク" disabled><span></span><b>キャラメイク</b></button>
+  <p id="wardrobe-notice" class="wardrobe-notice" role="status"></p>
+  <div id="stick" class="stick" role="group" aria-label="移動スティック"><i></i></div>
+  <div class="actions"><button id="interact" class="interact" hidden><span>渡す</span> <kbd>E</kbd></button><div class="move-actions"><button id="dash" class="round action" type="button" aria-label="走るモード" aria-pressed="false" title="走る・歩くを切り替える"><svg viewBox="0 0 24 24"><path d="m5 7 5 5-5 5m9-10 5 5-5 5"/></svg><span>走る</span></button><button id="jump" class="round action" aria-label="ジャンプ"><svg viewBox="0 0 24 24"><path d="M12 18V5m-6 6 6-6 6 6M5 21h14"/></svg><span>ジャンプ</span></button></div></div>
+  <div class="keys"><kbd>WASD</kbd> 移動 <i></i> <kbd>Shift</kbd> 走る <i></i> <kbd>Space</kbd> ジャンプ <i></i> ドラッグで視点</div>
+  <div id="loading" class="loading">町を準備しています…</div>
+  <dialog id="dialog" aria-labelledby="instructions-title">
+    <button id="close" class="round close" aria-label="閉じる">×</button>
+    <section id="instructions"><h2 id="instructions-title">遊び方</h2><dl><dt>スマートフォン</dt><dd>左下のスティックで移動。画面の右側をドラッグすると視点が回ります。スティックで移動しながら、別の指でジャンプボタンを押せます。「走る」をタップすると移動中に走るモードになり、「歩く」をタップすると元に戻ります。</dd><dt>パソコン</dt><dd>WASD または矢印キーで移動。Shift で走る、Space でジャンプ、ドラッグで視点を操作します。V でカメラを反転できます。</dd><dt>扉とおつかい</dt><dd>扉やベンチ、花屋さんに近づいたら、表示されたボタンか E キーで操作できます。まずは金色の目印をたどって、花屋さんにケーキを届けましょう。</dd><dt>街の外へ</dt><dd>花の広場から北へ。丘の住宅街で左に曲がると展望台、道なりに進むと街の門と川に着きます。雪が続いて川が凍ると、氷の上を歩いて対岸へ渡れます。</dd></dl></section>
+    <section id="clock" hidden>
+      <h2 id="clock-title">街の時間</h2>
+      <form id="clock-form" class="clock-form">
+        <label for="clock-time">時刻 <output id="clock-value" for="clock-time"></output></label>
+        <input id="clock-time" type="range" min="0" max="1439" value="540">
+        <label for="clock-rate">ゲーム内の1日の長さ</label>
+        <select id="clock-rate">
+          <option value="5">5分</option><option value="12" selected>12分</option>
+          <option value="24">24分</option><option value="0">時刻を固定</option>
+        </select>
+        <button class="primary" type="submit">適用する</button>
+      </form>
+    </section>
+    <section id="weather" hidden>
+      <h2 id="weather-title">街の天気</h2>
+      <form id="weather-form" class="clock-form">
+        <label for="weather-mode">天候</label>
+        <select id="weather-mode">
+          <option value="auto">自動で変化</option>
+          <option value="clear">晴れ</option>
+          <option value="cloudy">曇り</option>
+          <option value="rain">雨</option>
+          <option value="wind">強風</option>
+          <option value="snow">雪</option>
+          <option value="mist">霧</option>
+          <option value="storm">雷雨</option>
+        </select>
+        <p id="weather-description"></p>
+        <button class="primary" type="submit">適用する</button>
+      </form>
+    </section>
+    <section id="wardrobe" hidden>
+      <h2 id="wardrobe-title">キャラメイク</h2>
+      <form id="appearance-form">
+        <div class="wardrobe-layout">
+          <div class="wardrobe-visuals">
+            <figure class="wardrobe-preview">
+              <figcaption>3Dプレビュー</figcaption>
+              <canvas id="appearance-preview" aria-label="選択したプレイヤーの3Dプレビュー"></canvas>
+              <p id="preview-error" hidden>3Dプレビューを表示できませんでした。</p>
+              <button type="button" id="preview-turn" class="wardrobe-secondary">後ろを見る</button>
+            </figure>
+          </div>
+          <div class="wardrobe-fields">
+            <label for="character">プレイヤー</label>
+            <select id="character" name="character"></select>
+            <p id="official-design">立ち絵に合わせた公式デザインです。</p>
+            <fieldset id="custom-fields" class="wardrobe-fields" aria-label="オリジナルの見た目" hidden disabled>
+              <label for="outfit">衣装</label>
+              <select id="outfit" name="outfit" aria-describedby="outfit-description"></select>
+              <p id="outfit-description"></p>
+              <label for="hairstyle">髪型</label>
+              <select id="hairstyle" name="hairstyle"></select>
+              <label for="hairColor">髪色</label>
+              <select id="hairColor" name="hairColor"></select>
+              <label for="eyeColor">瞳の色</label>
+              <select id="eyeColor" name="eyeColor"></select>
+            </fieldset>
+          </div>
+        </div>
+        <p id="save-error" role="alert" hidden>見た目を保存できませんでした。ブラウザの設定をご確認ください。</p>
+        <div class="wardrobe-actions">
+          <button type="button" id="appearance-reset" class="wardrobe-secondary" hidden>初期の見た目に戻す</button>
+          <button type="submit" id="appearance-submit" class="primary">このキャラで遊ぶ</button>
+        </div>
+      </form>
+    </section>
+    <section id="delivery" hidden><small>花屋さん</small><h2 id="delivery-title">焼きたての香り！</h2><p>届けてくれてありがとう。お店を閉めたら、このケーキでお茶にするね。川向こうの花畑に寄るなら、野花を一輪持ってきてくれる？</p><button id="continue" class="primary">散策を続ける</button></section>
+    <section id="discovery" hidden><h2 id="discovery-title"></h2><p id="discovery-detail"></p><button id="discovery-continue" class="primary">散策を続ける</button></section>
+  </dialog>
+</main>
+<script type="module" src="./game.js?v=12"></script>
+</body>
+</html>
